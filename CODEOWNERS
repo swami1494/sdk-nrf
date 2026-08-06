@@ -31,8 +31,6 @@
 /applications/serial_modem/README.rst     @nrfconnect/ncs-modem-doc
 /applications/connectivity_bridge/        @nrfconnect/ncs-cia @nordic-auko
 /applications/ipc_radio/                  @nrfconnect/ncs-si-muffin
-/applications/matter_bridge/              @nrfconnect/ncs-matter
-/applications/matter_weather_station/     @nrfconnect/ncs-matter
 /applications/nrf_audio/              @nrfconnect/ncs-audio
 /applications/nrf_desktop/                @nrfconnect/ncs-si-xcake
 /applications/installer/                  @nrfconnect/ncs-eris
@@ -41,8 +39,6 @@
 /applications/hpf/**/*.rst                @nrfconnect/ncs-lowlevel-doc
 /applications/connectivity_bridge/*.rst   @nrfconnect/ncs-cia-doc
 /applications/ipc_radio/*.rst             @nrfconnect/ncs-si-muffin-doc
-/applications/matter_bridge/**/*.rst      @nrfconnect/ncs-matter-doc
-/applications/matter_weather_station/*.rst @nrfconnect/ncs-matter-doc
 /applications/nrf_audio/**/*.rst      @nrfconnect/ncs-audio-doc
 /applications/nrf_desktop/**/*.rst        @nrfconnect/ncs-si-xcake-doc
 
@@ -73,7 +69,6 @@
 /doc/_utils/                              @nrfconnect/ncs-co-doc @nrfconnect/ncs-doc-leads
 /doc/internal/                            @nrfconnect/ncs-co-doc @nrfconnect/ncs-doc-leads
 /doc/kconfig/                             @nrfconnect/ncs-doc-leads
-/doc/matter/                              @nrfconnect/ncs-matter-doc
 /doc/mcuboot/                             @nrfconnect/ncs-eris-doc
 /doc/nrf/conf.py                          @nrfconnect/ncs-doc-leads
 /doc/nrf/nrf.doxyfile.in                  @nrfconnect/ncs-doc-leads
@@ -116,6 +111,7 @@
 /doc/nrf/drivers/uart.rst                 @nrfconnect/ncs-doc-leads
 /doc/nrf/drivers/uart_nrf_sw_lpuart.rst   @nrfconnect/ncs-doc-leads
 /doc/nrf/drivers/vtf_monitoring.rst       @nrfconnect/ncs-wifi-doc
+/doc/nrf/drivers/nrf71_sr_coex.rst        @nrfconnect/ncs-wifi-doc
 /doc/nrf/external_comp/avsystem.rst       @nrfconnect/ncs-iot-oulu-tampere-doc
 /doc/nrf/external_comp/bt_fast_pair/      @nrfconnect/ncs-si-bluebagel-doc @nrfconnect/ncs-si-xcake-doc
 /doc/nrf/external_comp/coremark.rst       @nrfconnect/ncs-blenders-doc
@@ -271,8 +267,6 @@
 /doc/nrf/samples/gazell.rst               @nrfconnect/ncs-si-xcake-doc
 /doc/nrf/samples/ironside_se.rst          @nrfconnect/ncs-aurora-doc
 /doc/nrf/samples/keys.rst                 @nrfconnect/ncs-aegir-doc
-/doc/nrf/samples/matter.rst               @nrfconnect/ncs-matter-doc
-/doc/nrf/samples/matter/*.rst             @nrfconnect/ncs-matter-doc
 /doc/nrf/samples/mesh.rst                 @nrfconnect/ncs-paladin-doc
 /doc/nrf/samples/net.rst                  @nrfconnect/ncs-doc-leads
 /doc/nrf/samples/nfc.rst                  @nrfconnect/ncs-radio-sw
@@ -314,6 +308,7 @@
 /drivers/mpsl/                            @nrfconnect/ncs-co-drivers @nrfconnect/ncs-dragoon
 /drivers/mspi/                            @nrfconnect/ncs-co-drivers @nrfconnect/ncs-ll-ursus
 /drivers/net/                             @nrfconnect/ncs-co-drivers @doki-nordic
+/drivers/nrf71_sr_coex/                   @nrfconnect/ncs-wcg-coex
 /drivers/ppi_seq/                             @nrfconnect/ncs-ll-izera
 /drivers/regulator/                       @nrfconnect/ncs-co-drivers
 /drivers/sdhc/                            @nrfconnect/ncs-co-drivers
@@ -435,6 +430,7 @@
 /include/dult.h                           @nrfconnect/ncs-si-bluebagel
 /include/accel_to_angle/                  @nrfconnect/ncs-si-bluebagel
 /include/wave_gen.h                       @nrfconnect/ncs-si-muffin
+/include/wifi_kmu/                        @adrianiainlam
 
 # Libraries
 /lib/accel_to_angle/                      @nrfconnect/ncs-si-bluebagel
@@ -486,6 +482,7 @@
 /lib/tone/                                @nrfconnect/ncs-audio
 /lib/uicc_lwm2m/                          @stig-bjorlykke
 /lib/wave_gen/                            @nrfconnect/ncs-si-muffin
+/lib/wifi_kmu/                            @adrianiainlam
 
 # Modules
 /modules/azure-sdk-for-c/                 @nrfconnect/ncs-cia
@@ -591,7 +588,6 @@
 /samples/hw_id/                           @nrfconnect/ncs-cia
 /samples/ipc/ipc_service/                 @anangl
 /samples/keys/                            @nrfconnect/ncs-aegir
-/samples/matter/                          @nrfconnect/ncs-matter
 /samples/mcuboot/                         @nrfconnect/ncs-eris
 /samples/mpsl/                            @nrfconnect/ncs-dragoon
 /samples/net/                             @nrfconnect/ncs-cia @nrfconnect/ncs-bifrost
@@ -740,7 +736,6 @@
 /samples/ironside_se/**/*.rst             @nrfconnect/ncs-aurora-doc
 /samples/ipc/ipc_service/*.rst            @nrfconnect/ncs-vestavind-doc
 /samples/keys/**/*.rst                    @nrfconnect/ncs-aegir-doc
-/samples/matter/**/*.rst                  @nrfconnect/ncs-matter-doc
 /samples/mpsl/**/*.rst                    @nrfconnect/ncs-dragoon-doc
 /samples/net/**/*.rst                     @nrfconnect/ncs-cia-doc
 /samples/net/coap_client/*.rst            @nrfconnect/ncs-iot-oulu-tampere-doc
@@ -857,13 +852,12 @@
 /scripts/ncs-docker-version.txt           @nrfconnect/ncs-ci
 /scripts/print_docker_image.sh            @nrfconnect/ncs-ci
 /scripts/print_toolchain_checksum.sh      @nrfconnect/ncs-ci
-/scripts/twister_harness_ext/             @nrfconnect/ncs-eris @gchwier @nrfconnect/ncs-test-leads
+/scripts/twister_harness_ext/             @nrfconnect/ncs-eris @nrfconnect/ncs-eris-test @nrfconnect/ncs-test-framework
 /scripts/hpf/                             @nrfconnect/ncs-ll-ursus
 /scripts/generate_psa_key_attributes.py   @nrfconnect/ncs-aegir
-/scripts/tests/                           @nrfconnect/ncs-eris @fundakol
+/scripts/tests/                           @nrfconnect/ncs-eris @nrfconnect/ncs-eris-test
 /scripts/vale/                            @francescoser
 /scripts/esb_sniffer/                     @nrfconnect/ncs-si-xcake
-/scripts/matter/                          @nrfconnect/ncs-matter
 /scripts/runners/nrf_common_next.py       @nrfconnect/ncs-ci
 /scripts/runners/nrfutil_next.py          @nrfconnect/ncs-ci
 /scripts/ci/nrf_undef_kconfig_allowlist.txt @nrfconnect/ncs-co-build-system
@@ -891,7 +885,6 @@
 /snippets/coverage_support/               @nrfconnect/ncs-low-level-test
 /snippets/hpf/                            @nrfconnect/ncs-ll-ursus
 /snippets/hw-flow-control/                @nrfconnect/ncs-low-level-test @miha-nordic
-/snippets/matter/                         @nrfconnect/ncs-matter
 /snippets/nordic-bt-rpc/                  @ppryga-nordic
 /snippets/nrf70-driver-debug/             @krish2718 @sachinthegreen
 /snippets/nrf70-driver-verbose-debug/     @krish2718 @sachinthegreen
@@ -1020,6 +1013,7 @@
 /tests/drivers/grtc/                      @nrfconnect/ncs-low-level-test
 /tests/drivers/i2c/                       @nrfconnect/ncs-low-level-test
 /tests/drivers/i2s/                       @nrfconnect/ncs-low-level-test
+/tests/drivers/nrf71_sr_coex/             @nrfconnect/ncs-wcg-coex
 /tests/drivers/lpuart/                    @nordic-krch @nrfconnect/ncs-low-level-test
 /tests/drivers/mspi/app_fault_timer/      @nrfconnect/ncs-low-level-test @nrfconnect/ncs-ll-ursus
 /tests/drivers/mspi/error_cases/          @nrfconnect/ncs-low-level-test @nrfconnect/ncs-ll-ursus
@@ -1069,6 +1063,7 @@
 /tests/lib/tone/                          @nrfconnect/ncs-audio
 /tests/lib/uicc_lwm2m/                    @stig-bjorlykke
 /tests/lib/app_jwt/                       @nrfconnect/ncs-modem
+/tests/lib/wifi_kmu/                      @adrianiainlam
 /tests/mocks/nrf_modem_at/mock_nrf_modem_at.c @nrfconnect/ncs-modem-tre
 /tests/mocks/nrf_rpc/                     @nrfconnect/ncs-protocols-serialization
 /tests/modules/lib/zcbor/                 @oyvindronningstad
@@ -1087,7 +1082,7 @@
 /tests/subsys/bluetooth/fast_pair/locator_tag_legacy/ @nrfconnect/ncs-si-bluebagel
 /tests/subsys/bluetooth/mesh/             @nrfconnect/ncs-paladin
 /tests/subsys/bluetooth/rpc_gatt_service/  @nrfconnect/ncs-protocols-serialization
-/tests/subsys/bootloader/                 @nrfconnect/ncs-eris
+/tests/subsys/bootloader/                 @nrfconnect/ncs-eris @nrfconnect/ncs-eris-test
 /tests/subsys/caf/                        @nrfconnect/ncs-si-bluebagel @nrfconnect/ncs-si-muffin @nrfconnect/ncs-si-xcake
 /tests/subsys/debug/cpu_load/             @nordic-krch
 /tests/subsys/dfu/                        @nrfconnect/ncs-eris
@@ -1097,7 +1092,7 @@
 /tests/subsys/event_manager_proxy/        @nrfconnect/ncs-si-bluebagel @nrfconnect/ncs-si-muffin @nrfconnect/ncs-si-xcake
 /tests/subsys/fw_info/                    @nrfconnect/ncs-eris
 /tests/subsys/ipc/                        @nrfconnect/ncs-low-level-test @anangl
-/tests/subsys/kmu/                        @nrfconnect/ncs-eris
+/tests/subsys/kmu/                        @nrfconnect/ncs-eris @nrfconnect/ncs-eris-test
 /tests/subsys/mpsl/                       @nrfconnect/ncs-dragoon
 /tests/subsys/net/lib/aws_*/              @nrfconnect/ncs-cia
 /tests/subsys/net/lib/azure_iot_hub/      @nrfconnect/ncs-cia
@@ -1124,6 +1119,7 @@
 /tests/subsys/west_flash/                 @nrfconnect/ncs-low-level-test
 /tests/tfm/                               @nrfconnect/ncs-aegir @magnev
 /tests/unity/                             @nordic-krch
+/tests/wifi/crypto/                       @adrianiainlam @krish2718
 /tests/zephyr/arch/arm/                   @nrfconnect/ncs-low-level-test
 /tests/zephyr/boards/nrf/                 @nrfconnect/ncs-low-level-test
 /tests/zephyr/drivers/adc/                @nrfconnect/ncs-low-level-test

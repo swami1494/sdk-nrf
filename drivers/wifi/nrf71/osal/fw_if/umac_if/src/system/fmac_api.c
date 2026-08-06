@@ -432,26 +432,6 @@ out:
 	return status;
 }
 
-#ifdef NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL
-enum nrf_wifi_status nrf_wifi_coex_config_sleep_ctrl_gpio_ctrl(
-		struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx,
-		unsigned int alt_swctrl1_function_bt_coex_status1,
-		unsigned int invert_bt_coex_grant_output)
-{
-	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
-
-	status = nrf_wifi_hal_coex_config_sleep_ctrl_gpio_ctrl(fmac_dev_ctx->hal_dev_ctx,
-				   alt_swctrl1_function_bt_coex_status1,
-				   invert_bt_coex_grant_output);
-
-	if (status != NRF_WIFI_STATUS_SUCCESS) {
-		nrf_wifi_osal_log_err("%s: Failed to configure sleep control GPIO control register",
-					  __func__);
-	}
-	return status;
-}
-#endif /* NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL */
-
 void nrf_wifi_sys_fmac_dev_deinit(struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx)
 {
 	if (fmac_dev_ctx->op_mode != NRF_WIFI_OP_MODE_SYS) {
@@ -460,8 +440,11 @@ void nrf_wifi_sys_fmac_dev_deinit(struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx)
 		return;
 	}
 
-	nrf_wifi_hal_dev_deinit(fmac_dev_ctx->hal_dev_ctx);
+	/* Tell the firmware to stand down first: the de-init command travels over
+	 * the same transport that the HAL de-init tears down.
+	 */
 	nrf_wifi_sys_fmac_fw_deinit(fmac_dev_ctx);
+	nrf_wifi_hal_dev_deinit(fmac_dev_ctx->hal_dev_ctx);
 	nrf_wifi_osal_mem_free(fmac_dev_ctx->tx_pwr_ceil_params);
 }
 
@@ -2198,9 +2181,23 @@ enum nrf_wifi_status nrf_wifi_sys_fmac_del_vif(void *dev_ctx,
 		goto out;
 	}
 
+	if (if_idx >= MAX_NUM_VIFS) {
+		nrf_wifi_osal_log_err("%s: Invalid VIF index %d",
+				      __func__, if_idx);
+		goto out;
+	}
+
 	sys_dev_ctx = wifi_dev_priv(fmac_dev_ctx);
 
-	switch (sys_dev_ctx->vif_ctx[if_idx]->if_type) {
+	vif_ctx = sys_dev_ctx->vif_ctx[if_idx];
+
+	if (!vif_ctx) {
+		nrf_wifi_osal_log_err("%s: VIF ctx does not exist",
+				      __func__);
+		goto out;
+	}
+
+	switch (vif_ctx->if_type) {
 	case NRF_WIFI_IFTYPE_STATION:
 	case NRF_WIFI_IFTYPE_P2P_CLIENT:
 	case NRF_WIFI_IFTYPE_AP:
@@ -2208,14 +2205,6 @@ enum nrf_wifi_status nrf_wifi_sys_fmac_del_vif(void *dev_ctx,
 		break;
 	default:
 		nrf_wifi_osal_log_err("%s: VIF type not supported",
-				      __func__);
-		goto out;
-	}
-
-	vif_ctx = sys_dev_ctx->vif_ctx[if_idx];
-
-	if (!vif_ctx) {
-		nrf_wifi_osal_log_err("%s: VIF ctx does not exist",
 				      __func__);
 		goto out;
 	}
@@ -2258,6 +2247,11 @@ out:
 	}
 
 	if (vif_ctx) {
+		/* Release the slot along with the context. Leaving it set would
+		 * both dangle and make nrf_wifi_fmac_vif_idx_get() hand out the
+		 * next index instead of reusing this one.
+		 */
+		sys_dev_ctx->vif_ctx[if_idx] = NULL;
 		nrf_wifi_osal_mem_free(vif_ctx);
 	}
 
@@ -2710,7 +2704,7 @@ enum nrf_wifi_status nrf_wifi_sys_fmac_get_interface(void *dev_ctx,
 	struct nrf_wifi_cmd_get_interface *cmd = NULL;
 	struct nrf_wifi_fmac_dev_ctx *fmac_dev_ctx = NULL;
 
-	if (!dev_ctx || if_idx > MAX_NUM_VIFS) {
+	if (!dev_ctx || if_idx >= MAX_NUM_VIFS) {
 		goto out;
 	}
 	fmac_dev_ctx = dev_ctx;

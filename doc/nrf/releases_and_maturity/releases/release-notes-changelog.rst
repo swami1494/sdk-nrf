@@ -56,6 +56,8 @@ Bootloaders and DFU
 * Removed support for Device Firmware Update (DFU) of the nRF70 Series firmware patch, together with the ``SB_CONFIG_DFU_MULTI_IMAGE_PACKAGE_WIFI_FW_PATCH``, ``SB_CONFIG_DFU_ZIP_WIFI_FW_PATCH``, and ``CONFIG_NRF_WIFI_FW_PATCH_DFU`` Kconfig options.
   See the :ref:`migration_3.5` for details.
 
+* Added the :ref:`ug_bootloader_nrf54l_memory_protection` documentation page to explaining the memory protection features of the bootloader on the nRF54L Series.
+
 Developing with nRF91 Series
 ============================
 
@@ -129,10 +131,20 @@ Security
     See also :ref:`ug_tfm_logging` for more information.
   * Support for the SHAKE-128 and SHAKE-256 eXtendable Output Functions (XOF) in the CRACEN driver.
 
+* Updated:
+
+  * Oberon PSA Crypto from v2.0.0 to v2.1.0.
+    The new version has minor updates in internal APIs, restructures the directory hierarchy, and improves native support for built-in keys.
+
 Security libraries
 ------------------
 
 |no_changes_yet_note|
+
+* :ref:`trusted_storage_readme` library:
+
+  * Added the deprecation note in the library documentation.
+    The library is replaced by the :ref:`Secure Storage subsystem <secure_storage>` (:kconfig:option:`CONFIG_SECURE_STORAGE`).
 
 Mbed TLS
 --------
@@ -179,7 +191,9 @@ Gazell
 Matter
 ------
 
-* Replaced the tables on the :ref:`ug_matter_hw_requirements_ram_flash` and :ref:`ug_matter_hw_requirements_layouts` pages with memory layout charts.
+* Moved all Matter samples, shared sample infrastructure, devicetree partition files, and Matter-specific snippets from ``sdk-nrf`` to the separate `Matter add-on <ncs-matter add-on repository_>`_ repository (``ncs-matter``).
+  The Matter bridge and Thingy:53 weather station reference applications are also relocated into the add-on.
+  See :ref:`migration_sdk_nrf_to_ncs_matter` for the migration guide.
 
 Matter fork
 +++++++++++
@@ -225,7 +239,8 @@ IPC radio firmware
 Matter bridge
 -------------
 
-|no_changes_yet_note|
+* Moved the Matter bridge application to the `Matter add-on <ncs-matter add-on repository_>`_ repository.
+  See :ref:`migration_sdk_nrf_to_ncs_matter` for the migration guide.
 
 nRF Audio (formerly nRF5340 Audio)
 ----------------------------------
@@ -255,11 +270,15 @@ nRF Desktop
   * The ``release_fast_pair`` build type for the ``nrf54ls05dk/nrf54ls05a/cpuapp`` and ``nrf54ls05dk/nrf54ls05b/cpuapp`` board targets.
     The configuration acts as a HID mouse with Fast Pair support.
     It uses MCUboot in direct-xip mode with software-based image signature verification.
+  * Optional support for dongles with HID SCI, configurable through the :option:`CONFIG_DESKTOP_HID_FORWARD_HID_SCI_ENABLE` Kconfig option.
+    The :ref:`nrf_desktop_hid_forward` module now uses :c:macro:`APP_EVENT_SUBSCRIBE_FIRST` to subscribe to the :c:struct:`ble_discovery_complete_event` event.
+    The module updates event data to ensure all other modules are notified about the SCI support.
 
 Thingy:53: Matter weather station
 ---------------------------------
 
-|no_changes_yet_note|
+* Moved the Thingy:53 Matter Weather Station application to the `Matter add-on <ncs-matter add-on repository_>`_ repository.
+  See :ref:`migration_sdk_nrf_to_ncs_matter` for migration instructions.
 
 Installer (MCUboot Firmware Loader installer)
 -----------------------------------------------
@@ -297,6 +316,8 @@ Bluetooth Mesh samples
 Bluetooth Fast Pair samples
 ---------------------------
 
+* Added experimental support for the ``nrf54ls05dk/nrf54ls05a/cpuapp`` board target in all Bluetooth Fast Pair samples.
+
 * Removed support for the nRF52 and nRF53 Series devices from the :ref:`fast_pair_locator_tag` and :ref:`fast_pair_input_device` samples.
   The following board targets have been removed from both samples:
 
@@ -321,7 +342,7 @@ Bluetooth Fast Pair samples
 
 * :ref:`fast_pair_input_device` sample:
 
-    * Added support for the ``nrf54ls05dk/nrf54ls05a/cpuapp``, ``nrf54ls05dk/nrf54ls05b/cpuapp``, and ``nrf54lc10dk/nrf54lc10a/cpuapp`` board targets.
+  * Added support for the ``nrf54lc10dk/nrf54lc10a/cpuapp`` board target.
 
 Cellular samples
 ----------------
@@ -351,6 +372,9 @@ DFU samples
 -----------
 
 * Added the :ref:`encrypted_bootloader` sample that demonstrates how to secure device firmware update (DFU) with image encryption enabled for both the application and MCUboot.
+* Updated:
+
+  * The :ref:`mcuboot_minimal_configuration` has been moved to the :file:`samples/dfu` directory.
 
 DECT NR+ samples
 ----------------
@@ -381,13 +405,21 @@ Keys samples
 Matter samples
 --------------
 
-* Added support for the ``nrf54lc10dk/nrf54lc10a/cpuapp`` board target for the following samples:
+* Moved all Matter samples from :file:`nrf/samples/matter/` to the `Matter add-on <ncs-matter add-on repository_>`_ repository under :file:`ncs-matter/samples/`.
+  Sample paths no longer use the ``samples/matter/`` prefix (for example, :file:`ncs-matter/samples/template` replaces :file:`nrf/samples/matter/template`).
+  See :ref:`migration_sdk_nrf_to_ncs_matter` for the full list of path changes, Kconfig renames, and build instructions.
 
-  * :ref:`matter_template_sample`
-  * :ref:`matter_temperature_sensor_sample`
+* Renamed Matter-specific Zephyr snippets in the add-on:
 
-  DFU is not supported on this board target, as the nRF54LC10 DK is not equipped with external flash.
-  See :ref:`ug_matter_hw_requirements_external_flash` for more information.
+  * ``matter-debug`` → ``debug``
+  * ``matter-diagnostic-logs`` → ``diagnostic-logs``
+
+* Updated Matter sample CMake integration to use :file:`ncs-matter/cmake/sample.cmake` and the ``ZEPHYR_NCS_MATTER_MODULE_DIR`` variable instead of :file:`nrf/samples/matter/common/cmake/` helpers and ``ZEPHYR_NRF_MODULE_DIR``.
+
+* Moved shared Matter sample code from :file:`nrf/samples/matter/common/` to :file:`ncs-matter/subsys/`.
+
+* Moved Matter partition devicetree include files from :file:`nrf/dts/samples/matter/` to :file:`ncs-matter/dts/`.
+  Board overlays must use ``#include <nrf52840_partitions.dtsi>`` instead of ``#include <samples/matter/nrf52840_partitions.dtsi>``.
 
 Networking samples
 ------------------
@@ -408,6 +440,33 @@ Networking samples
   * :ref:`http_server`
   * :ref:`download_sample`
   * :ref:`aws_iot`
+
+* Removed the ``nrf54l15dk/nrf54l15/cpuapp`` with nRF7002 EB shield from the following samples, keeping only the nRF7002-EB II shield for the ``nrf54l15dk/nrf54l15/cpuapp`` board target:
+
+  * :ref:`https_client`
+  * :ref:`udp_sample`
+
+* :ref:`download_sample` sample:
+
+  * Added:
+
+    * Support for mutual TLS (client X.509 certificate authentication), using the new :option:`CONFIG_SAMPLE_PROVISION_CLIENT_CERT` Kconfig option.
+    * A :file:`wifi-dtls.conf` extra-conf file with example client certificate and CA trust chain for testing against the Eclipse Californium CoAP interop server.
+
+  * Updated:
+
+    * Enabled CoAP by default so that the sample always builds with support for both HTTP and CoAP.
+      The transport is selected automatically at runtime.
+    * Enabled the :option:`CONFIG_SAMPLE_COMPUTE_HASH` and :option:`CONFIG_SAMPLE_COMPARE_HASH` options by default.
+
+  * Fixed the HTTP file link, which was previously broken.
+
+* :ref:`net_coap_client_sample` sample:
+
+  * Added:
+
+    * Support for mutual DTLS (client X.509 certificate authentication), using the new :option:`CONFIG_COAP_SAMPLE_DTLS` Kconfig option
+    * A :file:`wifi-dtls.conf` extra-conf file with example client certificate and CA trust chain for testing against the Eclipse Californium CoAP interop server.
 
 NFC samples
 -----------
@@ -509,6 +568,7 @@ This section provides detailed lists of changes by :ref:`driver <drivers>`.
   * The :ref:`ppi_seq` driver for triggering periodic hardware tasks using PPI.
   * The :ref:`ppi_seq_i2c_spi` driver, which is using :ref:`ppi_seq` to perform batches of periodic I2C/SPI transfers without waking up the CPU.
   * The :ref:`vtf_monitoring` for battery voltage, temperature, and frequency monitoring.
+  * The :ref:`nrf71_sr_coex` driver, which coordinates Wi-Fi and short-range coexistence on an nRF71 Series device.
 
 SPI drivers
 -----------
@@ -634,6 +694,10 @@ Other libraries
 * :ref:`lib_ram_pwrdn` library:
 
   * Added support for the nRF54LC10A SoC.
+
+* :ref:`lib_hw_id` library:
+
+  * Added UUID support for the nRF54L Series and the nRF5340 SoC.
 
 Shell libraries
 ---------------

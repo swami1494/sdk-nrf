@@ -14,13 +14,6 @@ function(nrf71_wifi_setup_include_and_sources)
   set(os_agnostic_base ${ZEPHYR_NRF_WIFI_MODULE_DIR})
   set(fw_bins_base ${ZEPHYR_NRF_WIFI_MODULE_DIR}/zephyr/blobs/wifi_fw_bins)
 
-  if(CONFIG_NRF_WIFI_USE_KMU)
-    zephyr_library_include_directories(
-      ${ZEPHYR_NRF_MODULE_DIR}/subsys/net/lib/wifi_keys
-    )
-    zephyr_library_link_libraries(wifi_keys_driver)
-  endif()
-
   zephyr_library_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
@@ -156,7 +149,6 @@ function(nrf71_wifi_setup_include_and_sources)
     $<$<BOOL:${CONFIG_WIFI_MGMT_RAW_SCAN_RESULTS}>:WIFI_MGMT_RAW_SCAN_RESULTS>
     $<$<BOOL:${CONFIG_NRF_WIFI_COEX_DISABLE_PRIORITY_WINDOW_FOR_SCAN}>:NRF_WIFI_COEX_DISABLE_PRIORITY_WINDOW_FOR_SCAN>
     $<$<BOOL:${CONFIG_NRF_WIFI_RX_STBC_HT}>:NRF_WIFI_RX_STBC_HT>
-    $<$<BOOL:${CONFIG_NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL}>:NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL>
     $<$<BOOL:${CONFIG_NRF_WIFI_DYNAMIC_BANDWIDTH_SIGNALLING}>:NRF_WIFI_DYNAMIC_BANDWIDTH_SIGNALLING>
     $<$<BOOL:${CONFIG_NRF_WIFI_DYNAMIC_ED}>:NRF_WIFI_DYNAMIC_ED>
     NRF_WIFI_MAX_PS_POLL_FAIL_CNT=${CONFIG_NRF_WIFI_MAX_PS_POLL_FAIL_CNT}
@@ -218,8 +210,11 @@ function(nrf71_wifi_setup_include_and_sources)
 
 
   # ---- Sources: driver (Zephyr shim, net_if, mgmt, wpa, etc.) ----
-  zephyr_library_sources_ifdef(CONFIG_NRF71_SR_COEX
-    src/coex.c
+
+  # Coexistence transport used by the standalone nRF71 SR coexistence driver
+  # (drivers/nrf71_sr_coex) to reach the Coexistence Manager over FMAC.
+  zephyr_library_sources_ifdef(CONFIG_NRF71_SR_COEX_DRIVER
+    src/coex_transport.c
   )
 
   zephyr_library_sources_ifndef(CONFIG_NRF71_OFFLOADED_RAW_TX

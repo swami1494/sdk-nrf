@@ -65,7 +65,7 @@ manifest:
     # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/guides/modules.html
     - name: zephyr
       repo-path: sdk-zephyr
-      revision: c76c5621f4f2083be82b5c8acbff9b0c3a80b67c
+      revision: 9bfd2e02f31854c8616982fbbbd66368314895f4
       import:
         # In addition to the zephyr repository itself, NCS also
         # imports the contents of zephyr/west.yml at the above
@@ -129,7 +129,7 @@ manifest:
           compare-by-default: true
     - name: mcuboot
       repo-path: sdk-mcuboot
-      revision: 36628f1a153491d4c52d501d07e5fe569bacc9d2
+      revision: ad892cf561e46efc496ffb186e2341d9feae4e8f
       path: bootloader/mcuboot
     - name: qcbor
       repo-path: sdk-qcbor
@@ -146,38 +146,19 @@ manifest:
     - name: oberon-psa-crypto
       path: modules/crypto/oberon-psa-crypto
       repo-path: sdk-oberon-psa-crypto
-      revision: 87917371cc6f3883dbdf0c7751c48a358ab8920a
+      revision: e8db62ed0fba5028e7ae0eba7b1fb63436ae6416
     - name: nrfxlib
       repo-path: sdk-nrfxlib
       path: nrfxlib
-      revision: 363b3587e1c739df03dd0e8ff3ad4dbd511f296c
+      revision: b8af3dfb07b83b1230a18e3024ca83822b99d4ad
     - name: trusted-firmware-m
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
-      revision: 0287e435067334db021469da413ced0406c4cfb8
+      revision: 74c58c82a89cc739cd1b003c70a90e0f9d843039
     - name: psa-arch-tests
       repo-path: sdk-psa-arch-tests
       path: modules/tee/tf-m/psa-arch-tests
       revision: 2deff6bec6560a250c62c2def6531fe6937356d3
-    - name: matter
-      repo-path: sdk-connectedhomeip
-      path: modules/lib/matter
-      revision: 6add52db053a9050f91604acc356b9dfba0ffbce
-      west-commands: scripts/west/west-commands.yml
-      submodules:
-        - name: nlio
-          path: third_party/nlio/repo
-        - name: nlassert
-          path: third_party/nlassert/repo
-        - name: pigweed
-          path: third_party/pigweed/repo
-        - name: jsoncpp
-          path: third_party/jsoncpp/repo
-      userdata:
-        ncs:
-          upstream-url: https://github.com/project-chip/connectedhomeip
-          upstream-sha: 181b0cb14ff007ec912f2ba6627e05dfb066c008
-          compare-by-default: false
     - name: nrf-802154
       repo-path: sdk-nrf-802154
       path: nrf-802154
@@ -188,7 +169,7 @@ manifest:
       # Only for internal Nordic development
       repo-path: dragoon.git
       remote: dragoon
-      revision: d0b7c6f56ef62ae49d4cd4c5befc006621fee5c1
+      revision: b49c5477708516aeafab3cd33be2b3b69c958d72
       groups:
         - dragoon
     - name: cjson
@@ -202,7 +183,7 @@ manifest:
           compare-by-default: false
     - name: find-my
       repo-path: sdk-find-my
-      revision: 3594e242e4d0c65da726a028cfc0989d1f603ba7
+      revision: 35222987a4b7a29c98b9491c5ab4bf819c98994b
       groups:
         - find-my
     - name: azure-sdk-for-c

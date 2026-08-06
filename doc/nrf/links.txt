@@ -38,6 +38,7 @@
 .. _`Amazon Sidewalk Sample IoT App`: https://github.com/aws-samples/aws-iot-core-for-amazon-sidewalk-sample-app
 .. _`Zigbee R23 add-on repository`: https://github.com/nrfconnect/ncs-zigbee
 .. _`Zigbee R22 add-on repository`: https://github.com/nrfconnect/ncs-zigbee-r22
+.. _`ncs-matter add-on repository`: https://github.com/nrfconnect/ncs-matter
 .. _`sdk-zephyr`: https://github.com/nrfconnect/sdk-zephyr
 .. _`official Zephyr repository`:
 .. _`Zephyr repository`: https://github.com/zephyrproject-rtos/zephyr
@@ -189,6 +190,7 @@
 .. _`chip-tool`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/matter/chip_tool_guide.html
 .. _`Matter nRF Connect SDK Platform Certificate_1_4_2`: https://csa-iot.org/csa_product/nrf-connect-sdk/
 .. _`Matter nRF Connect SDK Platform Certificate_1_5_0`: https://csa-iot.org/csa_product/nrf-connect-sdk-with-nrf52-nrf53-and-nrf54l-series-socs/
+.. _`Matter Add-on`: https://nrfconnectdocs.nordicsemi.com/addons/ncs-matter/latest/index.html
 
 .. _`CoreMark GitHub`: https://github.com/eembc/coremark
 
@@ -198,22 +200,6 @@
 .. _`X.509`: https://www.itu.int/rec/T-REC-X.509-201910-I/en
 
 .. _`ncs-door-lock-and-access-control`: https://github.com/nrfconnect/ncs-door-lock-and-access-control
-
-.. ### Matter links that need updated SHA per release
-
-.. _`other controller setups`: https://github.com/nrfconnect/sdk-connectedhomeip/tree/5e2e5a02d6/src/controller
-.. _`CHIP Certificate Tool source files`: https://github.com/nrfconnect/sdk-connectedhomeip/tree/5e2e5a02d6/src/tools
-.. _`Bluetooth LE Arbiter's header file`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/src/platform/Zephyr/BLEAdvertisingArbiter.h
-.. _`LogModule enumeration`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/src/lib/support/logging/Constants.h
-.. _`Matter SDK's Logging header`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/src/lib/support/logging/CHIPLogging.h
-.. _`Factory Data Provider`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/src/platform/nrfconnect/FactoryDataProvider.h
-.. _`Matter nRF Connect platform source files`: https://github.com/nrfconnect/sdk-connectedhomeip/tree/5e2e5a02d6/src/platform/nrfconnect
-.. _`Generate factory data script`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/scripts/tools/nrfconnect/generate_nrfconnect_chip_factory_data.py
-.. _`Factory data schema`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/scripts/tools/nrfconnect/nrfconnect_factory_data.schema
-.. _`Generate partition script`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/scripts/tools/nrfconnect/nrfconnect_generate_partition.py
-.. _`Matter nRF Connect scripts`: https://github.com/nrfconnect/sdk-connectedhomeip/tree/5e2e5a02d6/scripts/tools/nrfconnect
-.. _`Matter nRF Connect Kconfig`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/config/nrfconnect/chip-module/Kconfig
-.. _`Matter Clusters Code-Driven support`: https://github.com/nrfconnect/sdk-connectedhomeip/blob/5e2e5a02d6/src/app/common/templates/config-data.yaml
 
 .. _`DCL Quick Start Guide`: https://github.com/zigbee-alliance/distributed-compliance-ledger/blob/master/docs/quickStartGuide.adoc
 .. _`nRF Cloud JSON protocol schemas`: https://github.com/nRFCloud/application-protocols
@@ -258,8 +244,6 @@
 
 
 .. _`Zephyr hostap fork`: https://github.com/zephyrproject-rtos/hostap
-
-.. _`tfm_secure_peripheral_partition.yaml`: https://github.com/nrfconnect/sdk-nrf/blob/main/samples/tfm/tfm_secure_peripheral/secure_peripheral_partition/tfm_secure_peripheral_partition.yaml.in
 
 .. ### Source: github.io
 
@@ -623,6 +607,8 @@
 .. _`nRF54L15 Key management unit`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/kmu.html
 .. _`nRF54L15 Key management unit provisioning`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/kmu.html#ariaid-title5
 .. _`nRF54L15 RRAMC`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/rramc.html
+.. _`nRF54L15 RRAMC regions protection`: https://docs.nordicsemi.com/bundle/ps_nrf54l15/page/rramc.html-rram_region_protection
+.. _`nRF54L15 UICR BOOTCONF register`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/uicr.html#register.BOOTCONF
 .. _`nRF54L15 REGION.CONFIG`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/rramc.html#ariaid-title35
 .. _`nRF54L15 RRAM programming parameters`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/_tmp/nrf54l15/autodita/RRAMC/parameters.rram_programming.html
 .. _`nRF54L15 CRACEN`: https://docs.nordicsemi.com/bundle/ps_nrf54L15/page/cracen.html
@@ -940,6 +926,7 @@
 
 .. _`known issues page on the main branch`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html
 .. _`known issues for nRF Connect SDK v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-4-0
+.. _`known issues for nRF Connect SDK v3.3.4`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-4
 .. _`known issues for nRF Connect SDK v3.3.3`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-3
 .. _`known issues for nRF Connect SDK v3.3.2`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-2
 .. _`known issues for nRF Connect SDK v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v3-3-1
@@ -1004,6 +991,7 @@
 .. _`known issues for nRF Connect SDK v1.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/known_issues.html?v=v1-4-0
 
 .. _`Repositories and revisions for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/releases_and_maturity/repository_revisions.html
+.. _`Repositories and revisions for v3.3.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.4/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.3.3`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.3/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.3.2`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.2/nrf/releases_and_maturity/repository_revisions.html
 .. _`Repositories and revisions for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrf/releases_and_maturity/repository_revisions.html
@@ -1057,6 +1045,7 @@
 .. _`Repositories and revisions`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.0/nrf/introduction.html#repositories-and-revisions
 
 .. _`Modem library changelog for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
+.. _`Modem library changelog for v3.3.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.4/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.3.3`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.3/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.3.2`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.2/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
 .. _`Modem library changelog for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrfxlib/nrf_modem/doc/CHANGELOG.html#nrf-modem-changelog
@@ -1109,6 +1098,7 @@
 .. _`Modem library changelog for v1.9.0`: https://nrfconnectdocs.nordicsemi.com/ncs/1.9.0/nrfxlib/nrf_modem/doc/CHANGELOG.html
 
 .. _`LwM2M carrier library changelog for v3.4.0`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
+.. _`LwM2M carrier library changelog for v3.3.4`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.4/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.3.3`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.3/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.3.2`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.2/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
 .. _`LwM2M carrier library changelog for v3.3.1`: https://nrfconnectdocs.nordicsemi.com/ncs/3.3.1/nrf/libraries/bin/lwm2m_carrier/CHANGELOG.html#liblwm2m-carrier-changelog
@@ -1192,11 +1182,12 @@
 .. _`migration_notes_3.0_recommended`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/nrf/releases_and_maturity/migration/migration_guide_3.0.html#migration-3-0-recommended
 
 .. _`Matter weather station application from the v2.1.1`: https://nrfconnectdocs.nordicsemi.com/ncs/2.1.1/nrf/applications/matter_weather_station/README.html
+.. _`GN tool`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/protocols/matter/getting_started/tools.html
+.. _`Matter certification`: https://nrfconnectdocs.nordicsemi.com/ncs/3.4.0/nrf/protocols/matter/end_product/certification.html
 
 .. _`CONFIG_BT_CTLR_TX_PWR_MINUS`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_BT_CTLR_TX_PWR_MINUS
 .. _`CONFIG_BT_CTLR_TX_PWR_PLUS`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_BT_CTLR_TX_PWR_PLUS
 .. _`CONFIG_PSA_SSF_CRYPTO_CLIENT`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_PSA_SSF_CRYPTO_CLIENT
-.. _`Matter factory data Kconfig options`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CHIP_FACTORY_DATA
 .. _`Kconfig search results`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_PM_PARTITION_SIZE
 .. _`CONFIG_PSA_WANT_*`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_PSA_WANT_*
 .. _`CONFIG_PSA_USE_*`: https://nrfconnectdocs.nordicsemi.com/ncs/latest/kconfig/index.html#!CONFIG_PSA_USE_*
@@ -1540,12 +1531,6 @@
 .. _`AWS S3 Developer Guide: Bucket Policy Examples`: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
 .. _`AWS IoT Core`: https://aws.amazon.com/iot-core/
 
-.. _`Understanding Frustration-Free Setup`: https://developer.amazon.com/docs/frustration-free-setup/understanding-ffs.html
-.. _`Matter Simple Setup`: https://developer.amazon.com/docs/frustration-free-setup/matter-simple-setup-getting-started.html
-.. _`Matter Simple Setup for Wi-Fi Overview`: https://developer.amazon.com/docs/frustration-free-setup/matter-simple-setup-for-wifi-overview.html
-.. _`Matter Simple Setup for Thread Overview`: https://developer.amazon.com/docs/frustration-free-setup/matter-simple-setup-for-thread-overview.html
-.. _`Amazon Alexa integration with Matter`: https://developer.amazon.com/en-US/docs/alexa/smarthome/matter-support.html
-
 .. ### Source: openthread.io
 
 .. _`OpenThread.io`: https://openthread.io/
@@ -1715,27 +1700,8 @@
 
 .. ### Source: csa-iot.org
 
-.. _`Connectivity Standards Alliance`: https://csa-iot.org
-.. _`CSA Specifications Download Request`: https://csa-iot.org/developer-resource/specifications-download-request/
-
-.. _`Matter Resource Kit`:
-.. _`CSA Matter Resource Kit`: https://community.csa-iot.org/page/matter-resource-kit
-.. _`Connectivity Standards Alliance Certification Policy`: https://csa-iot.org/wp-content/uploads/2021/12/07-4842-14-ptsc-certification-policy.pdf
-.. _`CSA's Testing Providers`: https://csa-iot.org/certification/testing-providers/
-.. _`CSA's Certification Team`: https://csa-iot.org/contact-us/
-.. _`Connectivity Standards Alliance members`: https://csa-iot.org/members/
-.. _`Join CSA`: https://csa-iot.org/become-member/
-.. _`PICS Tool`: https://picstool.csa-iot.org/
-.. _`Matter Attestation Form`: https://groups.csa-iot.org/wg/members-all/document/folder/2255
-.. _`Matter Attestation of Security template`: https://groups.csa-iot.org/wg/members-all/document/27432
-.. _`Connectivity Standards Alliance Certification Web Tool`: https://zigbeecertifiedproducts.knack.com/zigbee-certified#home/
-.. _`CSA Certified Products Database`: https://csa-iot.org/csa-iot_products/
 .. _`CSA blog post`: https://csa-iot.org/newsroom/matter-1-1-release-enhancements-for-developers-and-devices/
-.. _`Distributed Compliance Ledger`: https://webui.dcl.csa-iot.org/
-
 .. _`Matter 1.3 CSA blog post`: https://csa-iot.org/newsroom/matter-1-3-specification-released/
-.. _`CSA press release for Matter 1.4`: https://csa-iot.org/newsroom/matter-1-4-enables-more-capable-smart-homes/
-.. _`CSA press release for Matter 1.5`: https://csa-iot.org/newsroom/matter-1-5-introduces-cameras-closures-and-enhanced-energy-management-capabilities/
 
 .. ### Source: Chocolatey
 
@@ -1894,7 +1860,6 @@
 
 .. ### Source: youtube.com
 
-.. _`Developing Matter 1.0 products with nRF Connect SDK`: https://www.youtube.com/watch?v=9Ar13rMxGIk
 .. _`Accelerate cellular product development`: https://youtu.be/b1YW1J4aUps
 .. _`How nRF9160 enables cellular IoT asset tracking`: https://webinars.nordicsemi.com/events/12113311018?n=How+nRF9160+enables+cellular+IoT+asset+tracking&event_id=12113311018
 
@@ -1924,6 +1889,8 @@
 .. _`ADXL367`: https://www.analog.com/en/products/ADXL367.html#product-overview
 
 .. ### Source: other (2 links or less from the same URL)
+
+.. _`Eclipse Californium`: https://github.com/eclipse-californium/californium
 
 .. _`Open VSX Registry`: https://open-vsx.org/
 
@@ -2048,8 +2015,6 @@
 .. _`WPA Supplicant`: https://w1.fi/wpa_supplicant/
 
 .. _`IEEE 802.11 Working Group`: https://www.ieee802.org/11/
-
-.. _`Samsung SmartThings integration with Matter`: https://support.smartthings.com/hc/en-us/articles/11219700390804-SmartThings-x-Matter-Integration-
 
 .. _`Community Best Practice for Copyright Notice`: https://www.linuxfoundation.org/blog/copyright-notices-in-open-source-software-projects/
 
