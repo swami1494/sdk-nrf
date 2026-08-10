@@ -26,6 +26,7 @@
 #include <util.h>
 #include "common/fmac_util.h"
 #include <fmac_main.h>
+#include <drivers/wifi/nrf71/nrf71_wifi_coex.h>
 
 #ifndef CONFIG_NRF71_RADIO_TEST
 #ifdef CONFIG_NRF71_STA_MODE
@@ -682,13 +683,6 @@ enum nrf_wifi_status nrf_wifi_fmac_dev_add_zep(struct nrf_wifi_drv_priv_zep *drv
 	struct nrf_wifi_board_params board_params;
 	unsigned int fw_ver = 0;
 
-#if defined(CONFIG_NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL) && \
-	defined(CONFIG_NRF71_SYSTEM_MODE)
-	unsigned int alt_swctrl1_function_bt_coex_status1 =
-			(~CONFIG_NRF71_SR_COEX_SWCTRL1_OUTPUT) & 0x1;
-	unsigned int invert_bt_coex_grant_output = CONFIG_NRF71_SR_COEX_BT_GRANT_ACTIVE_LOW;
-#endif /* CONFIG_NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL && CONFIG_NRF71_SYSTEM_MODE */
-
 	rpu_ctx_zep = &drv_priv_zep->rpu_ctx_zep;
 
 	rpu_ctx_zep->drv_priv_zep = drv_priv_zep;
@@ -720,19 +714,6 @@ enum nrf_wifi_status nrf_wifi_fmac_dev_add_zep(struct nrf_wifi_drv_priv_zep *drv
 		NRF_WIFI_UMAC_VER_MAJ(fw_ver),
 		NRF_WIFI_UMAC_VER_MIN(fw_ver),
 		NRF_WIFI_UMAC_VER_EXTRA(fw_ver));
-
-
-#if defined(CONFIG_NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL) && \
-	defined(CONFIG_NRF71_SYSTEM_MODE)
-	LOG_DBG("Configuring SLEEP CTRL GPIO control register\n");
-	status = nrf_wifi_coex_config_sleep_ctrl_gpio_ctrl(rpu_ctx_zep->rpu_ctx,
-			alt_swctrl1_function_bt_coex_status1,
-			invert_bt_coex_grant_output);
-	if (status != NRF_WIFI_STATUS_SUCCESS) {
-		LOG_ERR("%s: Failed to configure GPIO control register", __func__);
-		goto err;
-	}
-#endif /* CONFIG_NRF71_SR_COEX_SLEEP_CTRL_GPIO_CTRL  && CONFIG_NRF71_SYSTEM_MODE */
 
 	status = nrf_wifi_fmac_config_rf_params(rpu_ctx_zep->rpu_ctx,
 						rpu_ctx_zep->phy_rf_params_addr);
@@ -820,6 +801,17 @@ enum nrf_wifi_status nrf_wifi_fmac_dev_rem_zep(struct nrf_wifi_drv_priv_zep *drv
 	return NRF_WIFI_STATUS_SUCCESS;
 }
 
+#if defined(CONFIG_NRF71_SR_COEX_DRIVER) && !defined(CONFIG_NRF71_RADIO_TEST)
+/* FMAC delivers CM2CD coexistence events (NRF_WIFI_EVENT_COEX_CONFIG) here;
+ * forward the payload to the coexistence driver.
+ */
+static void nrf_wifi_coex_event_cb(void *os_dev_ctx, void *event, unsigned int len)
+{
+	ARG_UNUSED(os_dev_ctx);
+	nrf71_wifi_coex_on_event(event, (size_t)len);
+}
+#endif /* CONFIG_NRF71_SR_COEX_DRIVER && !CONFIG_NRF71_RADIO_TEST */
+
 static int nrf_wifi_drv_main_zep(const struct device *dev)
 {
 #ifndef CONFIG_NRF71_RADIO_TEST
@@ -836,6 +828,7 @@ static int nrf_wifi_drv_main_zep(const struct device *dev)
 
 	/* Setup the linkage between the FMAC and the VIF contexts */
 	vif_ctx_zep->rpu_ctx_zep = &rpu_drv_priv_zep.rpu_ctx_zep;
+	k_mutex_init(&vif_ctx_zep->vif_lock);
 #ifndef CONFIG_NRF71_RADIO_TEST
 	k_work_init_delayable(&vif_ctx_zep->scan_timeout_work,
 			      nrf_wifi_scan_timeout_work);
@@ -909,6 +902,9 @@ static int nrf_wifi_drv_main_zep(const struct device *dev)
 #endif /* CONFIG_NRF71_STA_MODE */
 #if defined(CONFIG_NRF71_RAW_DATA_TX) || defined(CONFIG_NRF71_RAW_DATA_RX)
 	callbk_fns.channel_set_done_callbk_fn = nrf_wifi_event_proc_channel_set_done_zep;
+#endif
+#if defined(CONFIG_NRF71_SR_COEX_DRIVER)
+	callbk_fns.coex_event_callbk_fn = nrf_wifi_coex_event_cb;
 #endif
 
 	/* The OSAL layer needs to be initialized before any other initialization

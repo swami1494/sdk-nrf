@@ -44,7 +44,7 @@ static K_SEM_DEFINE(network_connected_sem, 0, 1);
 static int sec_tag_list[] = { SEC_TAG };
 #if CONFIG_SAMPLE_PROVISION_CERT
 static const char cert[] = {
-	#include SAMPLE_CERT_FILE_INC
+	#include "sample_cert.inc"
 
 	/* Null terminate certificate if running Mbed TLS on the application core.
 	 * Required by TLS credentials API.
@@ -52,7 +52,21 @@ static const char cert[] = {
 	IF_ENABLED(CONFIG_TLS_CREDENTIALS, (0x00))
 };
 BUILD_ASSERT(sizeof(cert) < KB(4), "Certificate too large");
+
+#if CONFIG_SAMPLE_PROVISION_CLIENT_CERT
+static const char client_cert[] = {
+	#include "sample_client_cert.inc"
+	IF_ENABLED(CONFIG_TLS_CREDENTIALS, (0x00))
+};
+BUILD_ASSERT(sizeof(client_cert) < KB(4), "Client certificate too large");
+static const char client_key[] = {
+	#include "sample_client_key.inc"
+	IF_ENABLED(CONFIG_TLS_CREDENTIALS, (0x00))
+};
+BUILD_ASSERT(sizeof(client_key) < KB(4), "Client private key too large");
+#endif /* CONFIG_SAMPLE_PROVISION_CLIENT_CERT */
 #endif /* CONFIG_SAMPLE_PROVISION_CERT */
+
 #endif /* CONFIG_SAMPLE_SECURE_SOCKET */
 
 static char dl_buf[2048];
@@ -76,6 +90,11 @@ static struct downloader_host_cfg host_dl_cfg = {
 #if CONFIG_SAMPLE_COMPUTE_HASH
 #include <psa/crypto.h>
 static psa_hash_operation_t hash_ctx;
+
+#if CONFIG_SAMPLE_COMPARE_HASH
+BUILD_ASSERT(sizeof(CONFIG_SAMPLE_SHA256_HASH) == 65,
+	     "CONFIG_SAMPLE_SHA256_HASH is not set or wrong length");
+#endif
 #endif
 
 static int64_t ref_time;
@@ -120,6 +139,10 @@ static int cert_provision(void)
 		printk("Failed to provision certificate, err %d\n", err);
 		return err;
 	}
+
+	/* NB: Client certificate/key provisioning (CONFIG_SAMPLE_PROVISION_CLIENT_CERT) is not
+	 * implemented for modem-managed credentials yet.
+	 */
 #else /* CONFIG_MODEM_KEY_MGMT */
 	err = tls_credential_add(SEC_TAG,
 				 TLS_CREDENTIAL_CA_CERTIFICATE,
@@ -131,6 +154,30 @@ static int cert_provision(void)
 		printk("Failed to register CA certificate: %d\n", err);
 		return err;
 	}
+
+#if CONFIG_SAMPLE_PROVISION_CLIENT_CERT
+	err = tls_credential_add(SEC_TAG,
+				 TLS_CREDENTIAL_PUBLIC_CERTIFICATE,
+				 client_cert,
+				 sizeof(client_cert));
+	if (err == -EEXIST) {
+		printk("Client certificate already exists, sec tag: %d\n", SEC_TAG);
+	} else if (err < 0) {
+		printk("Failed to register client certificate: %d\n", err);
+		return err;
+	}
+
+	err = tls_credential_add(SEC_TAG,
+				 TLS_CREDENTIAL_PRIVATE_KEY,
+				 client_key,
+				 sizeof(client_key));
+	if (err == -EEXIST) {
+		printk("Client private key already exists, sec tag: %d\n", SEC_TAG);
+	} else if (err < 0) {
+		printk("Failed to register client private key: %d\n", err);
+		return err;
+	}
+#endif /* CONFIG_SAMPLE_PROVISION_CLIENT_CERT */
 #endif /* !CONFIG_MODEM_KEY_MGMT */
 
 	return 0;
@@ -249,7 +296,7 @@ static int callback(const struct downloader_evt *event)
 
 #if CONFIG_SAMPLE_COMPUTE_HASH
 		uint8_t hash[32];
-		uint8_t hash_str[64 + 1];
+		char hash_str[64 + 1];
 		size_t hash_length;
 
 		status = psa_hash_finish(&hash_ctx, hash, sizeof(hash), &hash_length);

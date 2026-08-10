@@ -106,7 +106,7 @@ Usage
 You cannot use HUKs directly.
 You can however use the :ref:`lib_hw_unique_key` library to derive keys from HUKs using known labels.
 
-You can use HUKs indirectly through PSA Secure Storage without TF-M, for example through the :ref:`trusted_storage_readme` library.
+You can use HUKs indirectly through PSA Secure Storage without TF-M, for example through the :ref:`Secure Storage <secure_storage>` subsystem (using :kconfig:option:`CONFIG_SECURE_STORAGE_ITS_TRANSFORM_AEAD_KEY_PROVIDER_HUK_LIBRARY`).
 In such case, the HUK library will be used to derive keys that are then used to encrypt storage entries.
 This is done to prevent the application from accessing the HUK directly.
 
@@ -171,7 +171,7 @@ Configuring the KMU varies depending on the device.
 See the device-specific documentation for more information.
 
 For the nRF54L Series devices, you can use nRF Util for provisioning keys to KMU.
-See `Provisioning cryptographic keys`_ in the nRF Util documentation for more information.
+See `nrfutil device x-provision-keys`_ command page for more information.
 
 .. _key_storage_otp:
 

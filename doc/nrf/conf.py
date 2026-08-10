@@ -31,9 +31,6 @@ version = release = os.environ.get("DOCSET_VERSION")
 
 sys.path.insert(0, str(ZEPHYR_BASE / "doc" / "_extensions"))
 sys.path.insert(0, str(NRF_BASE / "doc" / "_extensions"))
-sys.path.insert(
-    0, str(NRF_BASE / "doc" / "nrf" / "protocols" / "matter" / "_extensions")
-)
 
 extensions = [
     "sphinx.ext.intersphinx",
@@ -58,9 +55,6 @@ extensions = [
     "notfound.extension",
     "ncs_tool_versions",
     "page_filter",
-    "memory_viz",
-    "memory_layout_viz",
-    "memory_table",
     "sphinxcontrib.plantuml",
     "sphinxcontrib.programoutput",
     "sphinxcontrib.jquery"
@@ -119,10 +113,6 @@ if nrfxlib_mapping:
 kconfig_mapping = utils.get_intersphinx_mapping("kconfig")
 if kconfig_mapping:
     intersphinx_mapping["kconfig"] = kconfig_mapping
-
-matter_mapping = utils.get_intersphinx_mapping("matter")
-if matter_mapping:
-    intersphinx_mapping["matter"] = matter_mapping
 
 tfm_mapping = utils.get_intersphinx_mapping("tfm")
 if tfm_mapping:

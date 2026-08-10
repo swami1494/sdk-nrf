@@ -762,6 +762,46 @@ __weak int nrf_wifi_if_zep_stop_board(const struct device *dev)
 	return 0;
 }
 
+/* Clear the per-VIF operational state that must not survive an interface down.
+ * vif_ctx_zep lives in the device data, so anything left set here is inherited
+ * by the next bring-up: a stale scan_in_progress, for instance, makes every
+ * later scan fail with "Scan already in progress". Scan work and any cached
+ * scan results have to go too, otherwise a display scan can run against torn
+ * down state and the connect scan database leaks or returns stale results.
+ */
+static void nrf_wifi_if_reset_vif_state(struct nrf_wifi_vif_ctx_zep *vif_ctx_zep)
+{
+	k_work_cancel_delayable(&vif_ctx_zep->scan_timeout_work);
+	k_work_cancel(&vif_ctx_zep->disp_scan_res_work);
+
+	vif_ctx_zep->scan_in_progress = false;
+	vif_ctx_zep->scan_type = 0;
+	vif_ctx_zep->scan_res_cnt = 0;
+	vif_ctx_zep->disp_scan_cb = NULL;
+	vif_ctx_zep->set_if_event_received = false;
+	vif_ctx_zep->set_if_status = 0;
+	vif_ctx_zep->if_op_state = NRF_WIFI_FMAC_IF_OP_STATE_DOWN;
+
+#if defined(CONFIG_NRF71_STA_MODE) || defined(CONFIG_NRF71_RAW_DATA_TX)
+	vif_ctx_zep->authorized = false;
+#endif
+#ifdef CONFIG_NRF71_STA_MODE
+	vif_ctx_zep->assoc_freq = 0;
+	vif_ctx_zep->if_carr_state = NRF_WIFI_FMAC_IF_CARR_STATE_OFF;
+	vif_ctx_zep->twt_flows_map = 0;
+	vif_ctx_zep->twt_flow_in_progress_map = 0;
+	vif_ctx_zep->ps_config_info_evnt = false;
+	vif_ctx_zep->cookie_resp_received = false;
+#ifdef CONFIG_NRF_WIFI_CONNECT_SCAN_RESULTS_GDRAM
+	if (vif_ctx_zep->connect_scan_db_addr) {
+		nrf_wifi_osal_mem_free((void *)(uintptr_t)vif_ctx_zep->connect_scan_db_addr);
+		vif_ctx_zep->connect_scan_db_addr = 0;
+	}
+	vif_ctx_zep->connect_scan_res_cnt = 0;
+#endif /* CONFIG_NRF_WIFI_CONNECT_SCAN_RESULTS_GDRAM */
+#endif /* CONFIG_NRF71_STA_MODE */
+}
+
 int nrf_wifi_if_start_zep(const struct device *dev)
 {
 	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
@@ -774,6 +814,7 @@ int nrf_wifi_if_start_zep(const struct device *dev)
 	unsigned int mac_addr_len = 0;
 	int ret = -1;
 	bool fmac_dev_added = false;
+	bool locked = false;
 
 	if (!dev) {
 		LOG_ERR("%s: Invalid parameters",
@@ -816,6 +857,7 @@ int nrf_wifi_if_start_zep(const struct device *dev)
 		LOG_ERR("%s: Failed to lock vif_lock", __func__);
 		goto out;
 	}
+	locked = true;
 
 	if (!rpu_ctx_zep->rpu_ctx) {
 		status = nrf_wifi_fmac_dev_add_zep(&rpu_drv_priv_zep);
@@ -853,7 +895,6 @@ int nrf_wifi_if_start_zep(const struct device *dev)
 		goto dev_rem;
 	}
 
-	k_mutex_init(&vif_ctx_zep->vif_lock);
 	vif_ctx_zep->if_type = add_vif_info.iftype;
 
 	/* Check if user has provided a valid MAC address, if not
@@ -945,7 +986,9 @@ dev_rem:
 		nrf_wifi_fmac_dev_rem_zep(&rpu_drv_priv_zep);
 	}
 out:
-	k_mutex_unlock(&vif_ctx_zep->vif_lock);
+	if (locked) {
+		k_mutex_unlock(&vif_ctx_zep->vif_lock);
+	}
 	return ret;
 }
 
@@ -975,8 +1018,14 @@ int nrf_wifi_if_stop_zep(const struct device *dev)
 	ret = k_mutex_lock(&vif_ctx_zep->vif_lock, K_FOREVER);
 	if (ret != 0) {
 		LOG_ERR("%s: Failed to lock vif_lock", __func__);
-		goto unlock;
+		goto out;
 	}
+
+	/* Drop any operation still outstanding on this VIF before the FMAC state
+	 * goes away. vif_ctx_zep is device data and survives the down/up cycle,
+	 * so state left behind here is state the next bring-up inherits.
+	 */
+	nrf_wifi_if_reset_vif_state(vif_ctx_zep);
 
 	rpu_ctx_zep = vif_ctx_zep->rpu_ctx_zep;
 	if (!rpu_ctx_zep || !rpu_ctx_zep->rpu_ctx) {
