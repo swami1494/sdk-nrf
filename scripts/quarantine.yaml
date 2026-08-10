@@ -60,13 +60,6 @@
   comment: "https://nordicsemi.atlassian.net/browse/NCSDK-40469"
 
 - scenarios:
-    - mcuboot.external_flash.upgrade.netcore
-    - nsib.mcuboot.external_flash.upgrade.netcore_and_mcuboot
-  platforms:
-    - nrf5340dk/nrf5340/cpuapp
-  comment: "https://nordicsemi.atlassian.net/browse/NCSDK-40472"
-
-- scenarios:
     - sample.mcumgr.smp_svr.ext_xip
     - sample.mcumgr.smp_svr.ext_xip.no_network_core
   platforms:
@@ -103,8 +96,6 @@
 
 - scenarios:
     - sample.bluetooth.peripheral_nsms_no_security
-    - sample.sensor.bme68x.i2c
-    - sample.sensor.bme68x.polling
   platforms:
     - thingy53/nrf5340/cpuapp/ns
   comment: "https://nordicsemi.atlassian.net/browse/NCSDK-40677"

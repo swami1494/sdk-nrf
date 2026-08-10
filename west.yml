@@ -65,7 +65,7 @@ manifest:
     # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/guides/modules.html
     - name: zephyr
       repo-path: sdk-zephyr
-      revision: 9bfd2e02f31854c8616982fbbbd66368314895f4
+      revision: fec5781fe431f6a1ca3d37cbe9e3239aac0cc242
       import:
         # In addition to the zephyr repository itself, NCS also
         # imports the contents of zephyr/west.yml at the above
@@ -129,7 +129,7 @@ manifest:
           compare-by-default: true
     - name: mcuboot
       repo-path: sdk-mcuboot
-      revision: ad892cf561e46efc496ffb186e2341d9feae4e8f
+      revision: cdc01217b2bd64a726a707a98b888fa07fa82d83
       path: bootloader/mcuboot
     - name: qcbor
       repo-path: sdk-qcbor
@@ -150,7 +150,7 @@ manifest:
     - name: nrfxlib
       repo-path: sdk-nrfxlib
       path: nrfxlib
-      revision: b8af3dfb07b83b1230a18e3024ca83822b99d4ad
+      revision: 88fa1d2b31173c1b9a1081bea58667c6e9a49ec0
     - name: trusted-firmware-m
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
@@ -224,7 +224,7 @@ manifest:
       groups:
         - doc-internal
     - name: nrf_wifi
-      revision: 5046744cb4c9640eb8b11cb92f1ea0b9554c20cf
+      revision: 7c26fb42f2b4265790ff2b401017a33dd046df29
       path: modules/lib/nrf_wifi
 
     # Other third-party repositories.
@@ -235,7 +235,7 @@ manifest:
       remote: throwtheswitch
     - name: memfault-firmware-sdk
       path: modules/lib/memfault-firmware-sdk
-      revision: 1.42.0
+      revision: 1.42.1
       remote: memfault
     - name: bsim
       repo-path: bsim_west

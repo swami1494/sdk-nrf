@@ -556,7 +556,7 @@ Wi-Fi samples
 Other samples
 -------------
 
-|no_changes_yet_note|
+* Added the :ref:`vtf_monitoring_sample` sample that demonstrates how to capture voltage, temperature, and frequency data using the :ref:`vtf_monitoring` subsystem.
 
 Drivers
 =======
@@ -582,12 +582,14 @@ Wi-Fi drivers
 -------------
 
 * Added the :ref:`nRF71 Series Wi-Fi driver <nrf71_wifi_fw_if>` page documenting its firmware interface.
-* Updated the :ref:`wifi_drivers` page by restructuring it into separate nRF70 Series and nRF71 Series sections.
-* Updated the default values of the following Kconfig options to reduce the default RAM footprint of the Wi-Fi drivers for the nRF70 and nRF71 Series:
 
-  * :kconfig:option:`CONFIG_NRF70_RX_NUM_BUFS` (or :kconfig:option:`CONFIG_NRF71_RX_NUM_BUFS`) from ``48`` to ``16``.
-  * :kconfig:option:`CONFIG_NRF70_MAX_TX_AGGREGATION` (or :kconfig:option:`CONFIG_NRF71_MAX_TX_AGGREGATION`) from ``12`` to ``4``.
-  * :kconfig:option:`CONFIG_NRF_WIFI_DATA_HEAP_SIZE` from ``130000`` to ``65536``.
+* Updated:
+
+  * The :ref:`wifi_drivers` page by restructuring it into separate nRF70 Series and nRF71 Series sections.
+  * The default values of the following Kconfig options to reduce the default RAM footprint of the Wi-Fi drivers for the nRF70 and nRF71 Series:
+    * :kconfig:option:`CONFIG_NRF70_RX_NUM_BUFS` (or :kconfig:option:`CONFIG_NRF71_RX_NUM_BUFS`) from ``48`` to ``16``.
+    * :kconfig:option:`CONFIG_NRF70_MAX_TX_AGGREGATION` (or :kconfig:option:`CONFIG_NRF71_MAX_TX_AGGREGATION`) from ``12`` to ``4``.
+    * :kconfig:option:`CONFIG_NRF_WIFI_DATA_HEAP_SIZE` from ``130000`` to ``65536``.
 
   See :ref:`migration_3.5` for more information.
 
@@ -660,11 +662,11 @@ Libraries for networking
 
 * :ref:`lib_nrf_cloud_pgps` library:
 
-  * Fixed an issue with parsing invalid payloads.
+  * Updated to use a new parser for assistance data.
 
 * :ref:`lib_nrf_cloud_agnss` library:
 
-  * Fixed an issue with parsing invalid payloads.
+  * Updated to use a new parser for assistance data.
 
 * :ref:`lib_nrf_cloud` library:
 
@@ -690,6 +692,8 @@ nRF RPC libraries
 
 Other libraries
 ---------------
+
+* Added the :ref:`vtf_monitoring` subsystem for battery voltage, temperature, and frequency monitoring used by the nRF Wi-Fi subsystem.
 
 * :ref:`lib_ram_pwrdn` library:
 
@@ -741,7 +745,7 @@ Memfault integration
 
 * Added support for setting the Memfault project key at runtime using the :kconfig:option:`CONFIG_MEMFAULT_PROJECT_KEY_SETTINGS` Kconfig option.
 
-* Updated Memfault to version 1.42.0.
+* Updated Memfault to version 1.42.1.
   See the `Memfault firmware SDK changelog`_ for details.
 
 * Removed the ``CONFIG_MEMFAULT_NCS_PROVISION_CERTIFICATES`` Kconfig option from nRF91x targets.

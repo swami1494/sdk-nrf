@@ -14,7 +14,7 @@ menuconfig WIFI_NRF71
 	select IPC_SERVICE
 	select MBOX
 	select SPSC_PBUF
-	select SOC_NRF71_WIFI_BOOT if BUILD_WITH_TFM
+	select SOC_NRF71_WIFI_BOOT
 	default y
 	depends on DT_HAS_NORDIC_NRF7120_WIFI_ENABLED
 	help
@@ -157,6 +157,12 @@ config NRF_WIFI_LOW_POWER
 	bool "Low power mode in nRF Wi-Fi chipsets"
 	depends on !NRF71_RADIO_TEST && !NRF71_AP_MODE
 	default y
+
+config NRF_WIFI_LP_RX
+	bool "Low power RF mode in nRF Wi-Fi chipsets"
+	depends on NRF_WIFI_LOW_POWER
+	help
+	  Enable low power RX in the LMAC tuning parameters sent to the RPU.
 
 config NRF71_TCP_IP_CHECKSUM_OFFLOAD
 	bool "TCP/IP checksum offload"
@@ -648,7 +654,7 @@ config WIFI_NRF71_SCAN_TIMEOUT_S
 
 choice NRF_WIFI_OP_BAND
 	prompt "nRF Wi-Fi operation bands"
-	default NRF_WIFI_ALL_BAND
+	default NRF_WIFI_DUAL_BAND
 
 config NRF_WIFI_ALL_BAND
 	bool "Set operation band to all supported bands"
@@ -849,6 +855,7 @@ config NRF_WIFI_MGMT_BUFF_OFFLOAD
 config NRF_WIFI_FEAT_KEEPALIVE
 	bool "Wi-Fi keepalive feature for connection maintenance"
 	depends on NRF71_STA_MODE
+	default y
 	help
 	  Enable the Wi-Fi keepalive feature to keep the connection alive by sending
 	  keepalive packets to the AP. This feature is primarily intended to interoperate with APs
@@ -990,6 +997,10 @@ config NRF_WIFI_TWT_SETUP_TIMEOUT_MS
 config NRF_WIFI_USE_KMU
 	bool "Use KMU for key installation"
 	depends on NRF_WIFI_KMU
+	default y
+	help
+	  Use KMU for key installation. This is the default KMU for the
+	  nRF71 Wi-Fi chip.
 
 config NRF_WIFI_CMD_EVENT_LOG
 	bool "Log HAL command/events (debug)"
