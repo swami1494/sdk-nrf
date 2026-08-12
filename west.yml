@@ -65,7 +65,7 @@ manifest:
     # https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/guides/modules.html
     - name: zephyr
       repo-path: sdk-zephyr
-      revision: fec5781fe431f6a1ca3d37cbe9e3239aac0cc242
+      revision: 0e25e66118d903037be2350cccc382134b7e62ad
       import:
         # In addition to the zephyr repository itself, NCS also
         # imports the contents of zephyr/west.yml at the above
@@ -150,7 +150,7 @@ manifest:
     - name: nrfxlib
       repo-path: sdk-nrfxlib
       path: nrfxlib
-      revision: 88fa1d2b31173c1b9a1081bea58667c6e9a49ec0
+      revision: d4583f53b76fe61c7c1533e6edfa3c29c21039f1
     - name: trusted-firmware-m
       repo-path: sdk-trusted-firmware-m
       path: modules/tee/tf-m/trusted-firmware-m
@@ -169,7 +169,7 @@ manifest:
       # Only for internal Nordic development
       repo-path: dragoon.git
       remote: dragoon
-      revision: b49c5477708516aeafab3cd33be2b3b69c958d72
+      revision: f7b492efe0ece5c7411b56ae6b5e364e995bc127
       groups:
         - dragoon
     - name: cjson
@@ -183,7 +183,7 @@ manifest:
           compare-by-default: false
     - name: find-my
       repo-path: sdk-find-my
-      revision: 35222987a4b7a29c98b9491c5ab4bf819c98994b
+      revision: e4404e5aa2ebee142c1a886646d43e0dc68f38d0
       groups:
         - find-my
     - name: azure-sdk-for-c
